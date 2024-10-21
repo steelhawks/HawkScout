@@ -164,8 +164,24 @@ const Login = ({
 
         try {
             // login info request
+            
+            // assessment for scout app people have them solve this issue
+            // .includes() is a method that checks if a string contains another string
+            // if the string does not contain the other string, it will return false
+            // if the string does contain the other string, it will return true
+            // for example, "hello".includes("he") will return true
+            // "hello".includes("hi") will return false
+            // with this knowledge, make it so taht you can login with just your username or email
+            // if the username does not contain "@nycstudents.net"
+            // then add "@nycstudents.net"
+            // this will allow you to login with just your username
+            // if you want to login with your email, you can just type your email
+            if (!_userName.includes('@nycstudents.net')) {
+                _userName = _userName + '@nycstudents.net';
+            }
+
             const {data, error} = await supabase.auth.signInWithPassword({
-                email: _userName + '@nycstudents.net', // supabase uses email so just add domain at the end
+                email: _userName, // supabase uses email so just add domain at the end
                 password: password,
             });
 
@@ -201,7 +217,7 @@ const Login = ({
                 id: userData.sub,
                 name: userData.name,
                 username: userData.username,
-                osis: '1234',
+                osis: userData.osis,
                 email: userData.email,
                 role: userData.role,
             };
@@ -323,7 +339,7 @@ const Login = ({
                         <TextInput
                             style={styles.input}
                             placeholderTextColor={'white'}
-                            placeholder="Username"
+                            placeholder="Username/Email"
                             onChangeText={text => setUsername(text)}
                             value={username}
                             autoCapitalize="none"

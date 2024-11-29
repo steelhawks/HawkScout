@@ -199,7 +199,9 @@ const PitScoutingPage = ({setMatchCreated, user, navigation}) => {
                                 title={query.title}
                                 item={
                                     <RadioGroup
-                                        buttons={query.options.map(option => option.name)}
+                                        buttons={query.options.map(
+                                            option => option.name,
+                                        )}
                                         onChange={selectedItem => {
                                             setDict(query.key, selectedItem);
                                         }}
@@ -207,8 +209,7 @@ const PitScoutingPage = ({setMatchCreated, user, navigation}) => {
                                 }
                             />
                         );
-                    }
-                 else {
+                    } else {
                         console.warn(`Unhandled query type: ${query.type}`);
                         return null;
                     }

@@ -25,6 +25,7 @@ import {
     fetchTeamDataFromServer,
     fetchEventNameFromServer,
     fetchAfterLogin,
+    fetchFormsFromServer,
 } from '../authentication/api';
 import {supabase} from '../supabase';
 // import * as os from "node:os";
@@ -212,6 +213,9 @@ const Login = ({
             // // team data request
             const allTeamData = await fetchTeamDataFromServer();
             setTeamData(allTeamData);
+
+            await fetchFormsFromServer();
+
 
             const user = {
                 id: userData.sub,

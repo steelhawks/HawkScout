@@ -5,8 +5,8 @@ const eventNameSaveFilePath =
     RNFS.DocumentDirectoryPath + '/data/eventName.json';
 const formDataSaveFilePath = RNFS.DocumentDirectoryPath + '/data/formData.json';
 
-const SERVER_ENDPOINT = 'https://steelhawks.herokuapp.com'; // prod
-// const SERVER_ENDPOINT = 'http://192.168.1.175:8082'; //dev
+// const SERVER_ENDPOINT = 'https://steelhawks.herokuapp.com'; // prod
+const SERVER_ENDPOINT = 'http://localhost:8082'; //dev
 
 export const fetchAfterLogin = async (username: string, osis: string, appVersion: string, accessToken: string) => {
     try {
@@ -151,44 +151,6 @@ export const fetchEventNameFromServer = async () => {
     }
 };
 
-export const fetchFormsFromServer = async () => {
-    try {
-        const response = await fetch(`${SERVER_ENDPOINT}/api/forms`);
-
-        if (response.ok) {
-            const forms = await response.json();
-
-            // ensure the directory exists
-            try {
-                await RNFS.mkdir(RNFS.DocumentDirectoryPath + '/data');
-                console.log('Located at', RNFS.DocumentDirectoryPath);
-            } catch (mkdirError) {
-                console.error('Error creating directory:', mkdirError);
-            }
-
-            // save forms to a JSON file
-            try {
-                await RNFS.writeFile(
-                    formDataSaveFilePath,
-                    JSON.stringify(forms, null, 2),
-                    'utf8',
-                );
-                console.log('Form data saved successfully.');
-            } catch (writeError) {
-                console.error('Error writing event name to file:', writeError);
-            }
-
-            return forms;
-        } else {
-            throw new Error(`Server not reachable. Status: ${response.status}`);
-        }
-    } catch (error) {
-        throw new Error(
-            `Error requesting event name from the server: ${error}`,
-        );
-    }
-};
-
 export const uploadDataToServer = async (data: any)  => { // fix to find type later
     console.log(typeof data);
     const response = await fetch(`${SERVER_ENDPOINT}/upload`, {
@@ -224,10 +186,11 @@ export const createAccount = async (email: string, osis: string, name: string) =
     }
 }
 
-export const getForms = async () => {
+export const fetchFormsFromServer = async () => {
     try {
         const response = await fetch(`${SERVER_ENDPOINT}/api/get_forms`);
         const forms = await response.json();
+        console.log(forms);
 
         try {
             await RNFS.mkdir(RNFS.DocumentDirectoryPath + '/data');
@@ -245,7 +208,7 @@ export const getForms = async () => {
             );
             console.log('Form data saved successfully.');
         } catch (writeError) {
-            console.error('Error writing event name to file:', writeError);
+            console.error('Error writing form data to file:', writeError);
         }
         
     } catch (error) {
@@ -253,4 +216,4 @@ export const getForms = async () => {
     }
 }
 
-getForms(); // run on startup to get forms
+fetchFormsFromServer(); // run on startup to get forms

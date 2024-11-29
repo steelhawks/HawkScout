@@ -378,7 +378,7 @@ const Login = ({
                         <Button
                             style={{paddingBottom: RFValue(1)}}
                             onPress={() => {
-                                navigation.navigate('Create Account');
+                                navigation.navigate("Create Account");
                             }}>Sign Up</Button>
                     </Animated.View>
 

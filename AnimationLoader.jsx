@@ -18,7 +18,11 @@ const AnimationLoader = ({ isLoading = false, loop = true, animationKey = 'LOAD_
 
     const setOn = (duration, callback) => {
         setTimeout(() => {
-            callback();
+            try { // quick fix to avoid crashing on chinese phones???
+                callback();
+            } catch (e) {
+                console.error(e);
+            }
             onAnimationComplete && onAnimationComplete(); // Check if onAnimationComplete is defined before calling it
         }, duration);
     };

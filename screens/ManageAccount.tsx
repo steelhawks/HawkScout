@@ -178,7 +178,8 @@ const ManageAccount: React.FC<ManageAccountProps> = ({setUser, user, appVersion,
                         }}
                     />
                     {((user.role === 'scouter' ||
-                        user.role === 'admin') && (
+                        user.role === 'admin' ||
+                        user.username === 'Offline User') && (
                             <Icon.Button
                                 name="edit"
                                 size={RFValue(25)}
@@ -215,7 +216,8 @@ const ManageAccount: React.FC<ManageAccountProps> = ({setUser, user, appVersion,
             <Stack.Screen name="Manage Account" component={ManageAccount} options={{headerShown: false}} />
             <Stack.Screen name="Settings" component={Settings} />
             {((user.role === 'scouter' ||
-                user.role === 'admin') && (
+                user.role === 'admin' ||
+                user.username === 'Offline User') && (
                     <Stack.Screen name="Scan Data" component={ScanNavigate} />
                 ))}
         </Stack.Navigator>

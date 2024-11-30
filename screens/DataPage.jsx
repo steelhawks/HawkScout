@@ -69,6 +69,39 @@ const DataPage = ({offlineMode, navigation, matchCreated}) => {
             });
     }, [docDir, refreshFlag]); // include refreshFlag in the dependency array
 
+    // read from "form schema" file and then get the key values for it to be viewable with the correct names
+    const mapJsonToSchema = (jsonData, form) => { 
+        const mappedData = {};
+    
+        form.sections.forEach(section => {
+            section.queries.forEach(query => {
+                const key = query.key;
+                const title = query.title;
+    
+                // check if the key exists in jsonData
+                if (key in jsonData) {
+                    const value = jsonData[key];
+    
+                    // handle different input types (e.g., checkbox-group-multiple)
+                    if (query.type === "checkbox-group-multiple" && Array.isArray(value)) {
+                        // map the selected values to their respective option names
+                        const selectedOptions = query.options
+                            .filter(option => value.includes(option.value))
+                            .map(option => option.name);
+    
+                        mappedData[title] = selectedOptions;
+                    } else {
+                        // for other types, map the value directly
+                        mappedData[title] = value;
+                    }
+                }
+            });
+        });
+    
+        return mappedData;
+    };
+    
+
     const [lastTapTime, setLastTapTime] = useState(null);
 
     const handleJsonSelection = async selectedJson => {
@@ -90,14 +123,56 @@ const DataPage = ({offlineMode, navigation, matchCreated}) => {
 
             // parses the JSON content and updates the dictionary
             const jsonData = JSON.parse(content);
-            const formattedFileKeys = Object.keys(jsonData).map(key => {
+            const isPit = jsonData.matchNumber === "PIT";
+
+            const formSchemaDocDir = fs.DocumentDirectoryPath + '/data/formData.json';
+            const data = await fs.readFile(formSchemaDocDir);
+            const formSchema = JSON.parse(data);
+
+            var form = null;
+
+            if (isPit) {
+                form = formSchema.find(form => form.type === 'pit');
+            } else {
+                form = formSchema.find(form => form.type === 'match');
+            }
+
+            
+            // if (!form) {
+            //     console.error("No 'pit' form found in the data");
+            //     return;
+            // }
+            
+            const mappedData = mapJsonToSchema(jsonData, form);
+            // console.log("Mapped Data:", JSON.stringify(mappedData, null, 2));
+            
+
+            console.log(
+                'This is the form:',
+                isPit ? 'Pit' : 'Match',
+            );
+            
+            
+            
+
+
+
+
+
+
+
+            const formattedFileKeys = Object.keys(jsonData)
+            .filter(key => !key.startsWith('q_')).map(key => {
+                
                 const words = key.split(/(?=[A-Z])/);
                 const formattedWords = words.map(
                     word => word.charAt(0).toUpperCase() + word.slice(1),
                 );
                 return formattedWords.join(' ');
             });
-            setFileKeys(formattedFileKeys);
+
+            setFileKeys(formattedFileKeys.concat(Object.keys(mappedData))); // combine the keys from the JSON file and the form schema
+
             setFileValues(
                 Object.values(jsonData).map(value => {
                     if (

@@ -13,6 +13,7 @@ import Checkbox from '../components/inputs/Checkbox';
 import AvoidKeyboardContainer from '../components/AvoidKeyboardContainer';
 import {usePitDict} from '../contexts/dict.jsx';
 import RadioGroup from '../components/inputs/RadioGroup';
+import CounterBox from '../components/inputs/CounterBox';
 
 const PitScoutingPage = ({setMatchCreated, user, navigation}) => {
     const dict = usePitDict(state => state.dict);
@@ -209,6 +210,18 @@ const PitScoutingPage = ({setMatchCreated, user, navigation}) => {
                                 }
                             />
                         );
+                    } else if (query.type === 'counter') {
+                        return (
+                            <Query 
+                                key={query.key}
+                                title={query.title}
+                                item={
+                                    <CounterBox 
+                                        onChange={value => setDict(query.key, value)}
+                                    />
+                                }
+                            />
+                        )
                     } else {
                         console.warn(`Unhandled query type: ${query.type}`);
                         return null;
@@ -220,10 +233,10 @@ const PitScoutingPage = ({setMatchCreated, user, navigation}) => {
                         key={section.id}
                         title={section.title}
                         queries={queries}
-                        style={[
+                        style={section.id % 2 === 1 ? [ // using a pattern style (red no color) for every other section
                             styles.sectionStyle,
                             styles.patternSectionStyle,
-                        ]}
+                        ] : styles.sectionStyle}
                     />
                 );
             });

@@ -22,6 +22,8 @@ import CounterBox from '../components/inputs/CounterBox';
 
 type RouteParams = {
     file: string;
+    parsedKeys: any;
+    parsedValues: any;
 };
 
 const docDir = fs.DocumentDirectoryPath;
@@ -31,6 +33,8 @@ const EditPage = ({navigation}: {navigation: any}) => {
     const route = useRoute(); // use the useRoute hook to get the route object
     const params = route.params as RouteParams; // cast route.params to the defined type
     const file = params.file; // access the file parameter from the route.params object
+    const parsedKeys = params.parsedKeys;
+    const parsedValues = params.parsedValues;
 
     const [fileValues, setFileValues] = useState<string[]>([]);
     const [fileKeys, setFileKeys] = useState<string[]>([]);
@@ -46,9 +50,12 @@ const EditPage = ({navigation}: {navigation: any}) => {
                 const content = await fs.readFile(path, 'utf8');
 
                 const jsonData = JSON.parse(content);
-                console.log('JSON Data', Object.values(jsonData));
+                // console.log('JSON Data', Object.values(jsonData));
+                // console.log(parsedKeys);
                 setFileKeys(Object.keys(jsonData));
                 setFileValues(Object.values(jsonData));
+                // setFileKeys(parsedKeys);
+                // setFileValues(parsedValues);
 
                 {
                     jsonData.matchNumber === 'PIT'

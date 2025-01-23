@@ -9,43 +9,75 @@ import {useDictStore} from '../../contexts/dict.jsx';
 const Teleop = () => {
     const setDict = useDictStore(state => state.setDict);
 
-    const tele_scoring_queries = [
+    const reef_scoring_queries = [
         <Query
-            title="Speaker Notes Scored"
+            title="L4 Reef Scored"
             item={
                 <CounterBox
                     onChange={value =>
-                        setDict('telopSpeakerNotesScored', value)
+                        setDict('teleopL4ReefScored', value)
                     }
                 />
             }
         />,
         <Query
-            title="Amp Notes Scored"
+            title="L3 Reef Scored"
             item={
                 <CounterBox
-                    onChange={value => setDict('telopAmpNotesScored', value)}
+                    onChange={value =>
+                        setDict('teleopL3ReefScored', value)
+                    }
+                />
+            }
+        />,
+        <Query
+            title="L3 Reef Scored"
+            item={
+                <CounterBox
+                    onChange={value =>
+                        setDict('teleopL3ReefScored', value)
+                    }
+                />
+            }
+        />,
+        <Query
+            title="L2 Reef Scored"
+            item={
+                <CounterBox
+                    onChange={value =>
+                        setDict('teleopL2ReefScored', value)
+                    }
+                />
+            }
+        />,
+        <Query
+            title="L1 Reef Scored"
+            item={
+                <CounterBox
+                    onChange={value =>
+                        setDict('teleopL1ReefScored', value)
+                    }
                 />
             }
         />,
     ];
 
-    const tele_missed_queries = [
+    const algae_scoring_queries = [
         <Query
-            title="Speaker Notes Missed"
+            title="Net Algae Scored"
             item={
                 <CounterBox
                     onChange={value =>
-                        setDict('telopSpeakerNotesMissed', value)
+                        setDict('teleopNetShotsScored', value)
                     }
                 />
             }
         />,
         <Query
-            title="Amp Notes Missed"
+            title="Processor Algae Scored"
             item={
                 <CounterBox
-                    onChange={value => setDict('telopAmpNotesMissed', value)}
+                    onChange={value => setDict('teleopProcessorAlgaeScored', value)}
                 />
             }
         />,
@@ -54,8 +86,8 @@ const Teleop = () => {
     return (
         <ScrollView>
             <Section
-                title={'Teleop Scoring'}
-                queries={tele_scoring_queries}
+                title={'Reef Scoring'}
+                queries={reef_scoring_queries}
                 style={[
                     styles.sectionStyle,
                     {backgroundColor: 'lightblue'},
@@ -65,8 +97,8 @@ const Teleop = () => {
                 ]}
             />
             <Section
-                title={'Teleop Missed'}
-                queries={tele_missed_queries}
+                title={'Algae Scoring'}
+                queries={algae_scoring_queries}
                 style={[styles.patternSectionStyle]}
             />
         </ScrollView>

@@ -12,8 +12,8 @@ import CustomTextInput from '../components/inputs/CustomTextInput';
 import Checkbox from '../components/inputs/Checkbox';
 import AvoidKeyboardContainer from '../components/AvoidKeyboardContainer';
 import {usePitDict} from '../contexts/dict.jsx';
-import CameraView from '../components/CameraView';
-// import * as ImagePicker from 'expo-image'
+import RadioGroup from '../components/inputs/RadioGroup';
+import CounterBox from '../components/inputs/CounterBox';
 
 const PitScoutingPage = ({setMatchCreated, user, navigation}) => {
     const dict = usePitDict(state => state.dict);
@@ -133,27 +133,6 @@ const PitScoutingPage = ({setMatchCreated, user, navigation}) => {
             setDict(key, updatedQueries);
             return updatedQueries;
         });
-
-        // fix later
-        // setDict(key, prevDict => {
-        //     // make a copy of the current dict object
-        //     const updatedDict = {...prevDict};
-
-        //     if (isSelected) {
-        //     // if checkbox is selected, add id to the array
-        //     updatedDict[key].push(id);
-        //     } else {
-        //     // if checkbox is deselected, remove id from the array
-        //     const index = updatedDict[key].indexOf(id);
-        //     if (index !== -1) {
-        //         updatedDict[key].splice(index, 1);
-        //     }
-        //     }
-
-        //     // Return the updated dict object
-        //     console.log(updatedDict[key]);
-        //     return updatedDict;
-        // });
     };
 
     const [formSections, setFormSections] = useState([]);
@@ -162,7 +141,17 @@ const PitScoutingPage = ({setMatchCreated, user, navigation}) => {
         try {
             const data = await fs.readFile(docDir);
             const jsonData = JSON.parse(data);
+
             const pitForm = jsonData.find(form => form.type === 'pit');
+            if (!pitForm) {
+                console.error("No 'pit' form found in the data");
+                return;
+            }
+
+            console.log(
+                'This is the form:',
+                JSON.stringify(pitForm.sections, null, 4),
+            );
 
             const sections = pitForm.sections.map(section => {
                 const queries = section.queries.map(query => {
@@ -179,61 +168,75 @@ const PitScoutingPage = ({setMatchCreated, user, navigation}) => {
                                             setDict(query.key, text)
                                         }
                                         value={dict[query.key]}
-                                        keyboardType={query.keyboardType}
+                                        keyboardType={
+                                            query.keyboardType || 'default'
+                                        }
                                     />
                                 }
                             />
                         );
-                    }
-                    // else if (query.type === 'checkbox') {
-                    //     return (
-                    //         <Query
-                    //             key={query.key}
-                    //             title={query.title}
-                    //             item={
-                    //                 <Checkbox
-                    //                     onPress={selected =>
-                    //                         handleMultipleCheckboxQuery(
-                    //                             selected,
-                    //                             query.key,
-                    //                             query.state,
-                    //                         )
-                    //                     }
-                    //                 />
-                    //             }
-                    //         />
-                    //     );
-                    // }
-                    else if (query.type == 'checkbox-group') {
-                        return query.items.map(item => (
+                    } else if (query.type === 'checkbox-group-multiple') {
+                        return query.options.map(option => (
                             <Query
-                                key={item.key}
-                                title={item.title}
+                                key={`${query.key}-${option.value}`}
+                                title={option.name}
                                 item={
                                     <Checkbox
                                         onPress={selected => {
                                             handleMultiCheckboxQuery(
                                                 selected,
                                                 query.key,
-                                                item.value,
+                                                option.value,
                                             );
                                         }}
                                     />
                                 }
                             />
                         ));
+                    } else if (query.type === 'checkbox-group') {
+                        return (
+                            <Query
+                                key={query.key}
+                                title={query.title}
+                                item={
+                                    <RadioGroup
+                                        buttons={query.options.map(
+                                            option => option.name,
+                                        )}
+                                        onChange={selectedItem => {
+                                            setDict(query.key, selectedItem);
+                                        }}
+                                    />
+                                }
+                            />
+                        );
+                    } else if (query.type === 'counter') {
+                        return (
+                            <Query 
+                                key={query.key}
+                                title={query.title}
+                                item={
+                                    <CounterBox 
+                                        onChange={value => setDict(query.key, value)}
+                                    />
+                                }
+                            />
+                        )
+                    } else {
+                        console.warn(`Unhandled query type: ${query.type}`);
+                        return null;
                     }
                 });
 
                 return (
                     <Section
-                        key={section.title}
+                        key={section.id}
                         title={section.title}
                         queries={queries}
-                        style={[
+                        style={section.id % 2 === 1 ? [ // using a pattern style (red no color) for every other section
                             styles.sectionStyle,
                             styles.patternSectionStyle,
-                        ]}
+                        ] : styles.sectionStyle}
                     />
                 );
             });

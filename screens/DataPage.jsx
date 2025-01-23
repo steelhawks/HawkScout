@@ -16,10 +16,7 @@ import fs from 'react-native-fs';
 import {GestureHandlerRootView, Swipeable} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Feather';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-// import {useDictStore, usePitDict} from '../contexts/dict';
 import EmptyPage from './EmptyPage';
-import {uploadDataToServer} from '../authentication/api';
 import {createStackNavigator} from '@react-navigation/stack';
 import EditPage from './EditPage';
 import QRCodeStyled from 'react-native-qrcode-styled';
@@ -69,50 +66,117 @@ const DataPage = ({offlineMode, navigation, matchCreated}) => {
             });
     }, [docDir, refreshFlag]); // include refreshFlag in the dependency array
 
+    // read from "form schema" file and then get the key values for it to be viewable with the correct names
+    const mapJsonToSchema = (jsonData, form) => {
+        const mappedData = {};
+
+        form.sections.forEach(section => {
+            section.queries.forEach(query => {
+                const key = query.key;
+                const title = query.title;
+
+                // check if the key exists in jsonData
+                if (key in jsonData) {
+                    const value = jsonData[key];
+
+                    // handle different input types (e.g., checkbox-group-multiple)
+                    if (
+                        query.type === 'checkbox-group-multiple' &&
+                        Array.isArray(value)
+                    ) {
+                        // map the selected values to their respective option names
+                        const selectedOptions = query.options
+                            .filter(option => value.includes(option.value))
+                            .map(option => option.name);
+
+                        mappedData[title] = selectedOptions;
+                    } else {
+                        // for other types, map the value directly
+                        mappedData[title] = value;
+                    }
+                }
+            });
+        });
+
+        return mappedData;
+    };
+
     const [lastTapTime, setLastTapTime] = useState(null);
 
     const handleJsonSelection = async selectedJson => {
         try {
+            const path = fs.DocumentDirectoryPath + '/' + selectedJson;
+            const content = await fs.readFile(path, 'utf8');
+
+            // parses the JSON content and updates the dictionary
+            const jsonData = JSON.parse(content);
+            const isPit = jsonData.matchNumber === 'PIT';
+
+            const formSchemaDocDir =
+                fs.DocumentDirectoryPath + '/data/formData.json';
+            const data = await fs.readFile(formSchemaDocDir);
+            const formSchema = JSON.parse(data);
+
+            var form = null;
+
+            if (isPit) {
+                form = formSchema.find(form => form.type === 'pit');
+            } else {
+                form = formSchema.find(form => form.type === 'match');
+            }
+
+            if (!form) {
+                console.error('No form schema found.');
+                return;
+            }
+
+            const mappedData = mapJsonToSchema(jsonData, form);
+            // console.log("Mapped Data:", JSON.stringify(mappedData, null, 2));
+
+            console.log('This form type is: ', isPit ? 'Pit' : 'Match');
+
+            const formattedFileKeys = Object.keys(jsonData)
+                .filter(key => !key.startsWith('q_'))
+                .map(key => {
+                    const words = key.split(/(?=[A-Z])/);
+                    const formattedWords = words.map(
+                        word => word.charAt(0).toUpperCase() + word.slice(1),
+                    );
+                    return formattedWords.join(' ');
+                });
+
+            // combine the keys from the JSON file and the form schema
+            const concatKeys = formattedFileKeys.concat(Object.keys(mappedData));
+            setFileKeys(concatKeys);
+
+            const fileVals = Object.values(jsonData).map(value => {
+                if (
+                    value === '' ||
+                    value === null ||
+                    (Array.isArray(value) && value.length === 0)
+                ) {
+                    return 'N/A';
+                } else if (Array.isArray(value)) {
+                    return value.join(', ');
+                } else {
+                    return value;
+                }
+            });
+
+            setFileValues(fileVals);
+
             const currentTime = Date.now();
             const doubleTapThreshold = 300;
 
             if (lastTapTime && currentTime - lastTapTime < doubleTapThreshold) {
                 if (jsonSelected === selectedJson) {
-                    handleEditFile(selectedJson);
+                    handleEditFile(selectedJson, concatKeys, fileVals);
                     setJsonSelected(false);
                     return;
                 }
             }
 
             setLastTapTime(currentTime);
-            const path = fs.DocumentDirectoryPath + '/' + selectedJson;
-            const content = await fs.readFile(path, 'utf8');
-
-            // parses the JSON content and updates the dictionary
-            const jsonData = JSON.parse(content);
-            const formattedFileKeys = Object.keys(jsonData).map(key => {
-                const words = key.split(/(?=[A-Z])/);
-                const formattedWords = words.map(
-                    word => word.charAt(0).toUpperCase() + word.slice(1),
-                );
-                return formattedWords.join(' ');
-            });
-            setFileKeys(formattedFileKeys);
-            setFileValues(
-                Object.values(jsonData).map(value => {
-                    if (
-                        value === '' ||
-                        value === null ||
-                        (Array.isArray(value) && value.length === 0)
-                    ) {
-                        return 'N/A';
-                    } else if (Array.isArray(value)) {
-                        return value.join(', ');
-                    } else {
-                        return value;
-                    }
-                }),
-            );
 
             // updates the boolean to false when the selected json is deselected
             setJsonSelected(prev =>
@@ -175,7 +239,7 @@ const DataPage = ({offlineMode, navigation, matchCreated}) => {
                 resolve('offline');
             }
         });
-    }
+    };
 
     const handleSync = async () => {
         if (jsonFiles.length === 0) {
@@ -481,8 +545,8 @@ const DataPage = ({offlineMode, navigation, matchCreated}) => {
     ];
 
     const [currentFile, setCurrentFile] = useState('');
-    const handleEditFile = file => {
-        navigation.navigate('EditPage', {file});
+    const handleEditFile = (file, parsedKeys, parsedValues) => {
+        navigation.navigate('EditPage', {file}, {parsedKeys}, {parsedValues});
         setCurrentFile('Editing ' + getFormattedFileName(file));
     };
 

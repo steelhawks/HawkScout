@@ -3,7 +3,6 @@ import React from 'react';
 import Section from '../../components/scouting_components/Section';
 import Query from '../../components/scouting_components/Query';
 import CounterBox from '../../components/inputs/CounterBox';
-import Checkbox from '../../components/inputs/Checkbox';
 import {useDictStore} from '../../contexts/dict.jsx';
 
 const TeleopReceived = () => {
@@ -12,88 +11,70 @@ const TeleopReceived = () => {
 
     const handleTeleopIssuesQueries = (isSelected, id) => {
         const updatedIssues = isSelected
-            ? [...dict.telopIssues, id] // add to array if selected
-            : dict.telopIssues.filter(issueId => issueId !== id); // remove from array if deselected
-        setDict('telopIssues', updatedIssues);
+            ? [...dict.teleopIssues, id] // add to array if selected
+            : dict.teleopIssues.filter(issueId => issueId !== id); // remove from array if deselected
+        setDict('teleopIssues', updatedIssues);
     };
 
     const tele_received_queries = [
         <Query
-            title="Note Received from Human Player"
+            title="Coral from Human Player"
             item={
                 <CounterBox
                     onChange={value =>
-                        setDict('telopNotesReceivedFromHumanPlayer', value)
+                        setDict('teleopCoralFromHumanPlayer', value)
                     }
                 />
             }
         />,
         <Query
-            title="Note Received from Ground"
+            title="Algae from Reef"
             item={
                 <CounterBox
                     onChange={value =>
-                        setDict('telopNotesReceivedFromGround', value)
+                        setDict('teleopAlgaeFromReef', value)
                     }
                 />
             }
         />,
         <Query
-            title="Ferry Notes"
-            item={<CounterBox onChange={value => setDict('ferryNotes', value)} />}
-        />,
-        <Query
-            title="Dropped Notes"
-            item={
-                <CounterBox onChange={value => setDict('droppedNotes', value)} />
-            }
+            title="Algae from Ground"
+            item={<CounterBox onChange={value => setDict('teleopAlgaeFromGround', value)} />}
         />,
     ];
 
-    const teleop_issues_queries = [
+    const tele_missed_queries = [
         <Query
-            title="Not Moving"
-            item={
-                <Checkbox
-                    onPress={selected =>
-                        handleTeleopIssuesQueries(selected, 'NOT_MOVING')
-                    }
-                />
-            }
+            title="Coral Missed"
+            item={<CounterBox onChange={value => setDict('teleopCoralMissed', value)} />}
         />,
         <Query
-            title="Lost Connection"
-            item={
-                <Checkbox
-                    onPress={selected =>
-                        handleTeleopIssuesQueries(selected, 'LOST_CONNECTION')
-                    }
-                />
-            }
+            title="Algae Missed"
+            item={<CounterBox onChange={value => setDict('teleopAlgaeMissed', value)} />}
         />,
         <Query
-            title="Disabled"
-            item={
-                <Checkbox
-                    onPress={selected =>
-                        handleTeleopIssuesQueries(selected, 'DISABLED')
-                    }
-                />
-            }
+            title="Dropped Coral/Algae"
+            item={<CounterBox onChange={value => setDict('teleopCoralAlgaeDropped', value)} />}
         />,
-    ];
+    ]
 
     return (
         <ScrollView>
             <Section
                 title={'Teleop Received'}
                 queries={tele_received_queries}
-                style={styles.sectionStyle}
+                style={[
+                    styles.sectionStyle,
+                    {backgroundColor: 'lightblue'},
+                    {borderRadius: 20},
+                    {marginBottom: 10},
+                    {marginTop: 10},
+                ]}
             />
             <Section
-                title={'Teleop Issues'}
-                queries={teleop_issues_queries}
-                style={styles.sectionStyle}
+                title={'Teleop Missed'}
+                queries={tele_missed_queries}
+                style={[styles.patternSectionStyle]}
             />
         </ScrollView>
     );

@@ -6,6 +6,7 @@ import RadioGroup from '../../components/inputs/RadioGroup';
 import Button from '../../components/inputs/Button';
 import CounterBox from '../../components/inputs/CounterBox';
 import {useDictStore} from '../../contexts/dict.jsx';
+import Checkbox from '../../components/inputs/Checkbox';
 import {SafeAreaView} from 'react-native';
 
 const Endgame = ({endMatch}) => {
@@ -14,12 +15,12 @@ const Endgame = ({endMatch}) => {
 
     const penalties_queries = [
         <Query
-            title="Fouls"
-            item={<CounterBox onChange={value => setDict('fouls', value)} />}
+            title="Minor Fouls"
+            item={<CounterBox onChange={value => setDict('minorFouls', value)} />}
         />,
         <Query
-            title="Tech Fouls"
-            item={<CounterBox onChange={value => setDict('techFouls', value)} />}
+            title="Major Fouls"
+            item={<CounterBox onChange={value => setDict('majorFouls', value)} />}
         />,
         <Query
             title="Yellow Cards"
@@ -49,16 +50,45 @@ const Endgame = ({endMatch}) => {
                 title="Position"
                 item={
                     <RadioGroup
-                        buttons={['Parked', 'Onstage', 'Spotlight']}
+                        buttons={['Shallow', 'Deep', 'Park', 'None']}
                         onChange={value => setDict('endGame', value)}
                     />
                 }
             />
-            <Query
-                title="Trap"
-                item={<CounterBox onChange={value => setDict('trap', value)} />}
-            />
         </SafeAreaView>,
+    ];
+
+    const teleop_issues_queries = [
+        <Query
+            title="Not Moving"
+            item={
+                <Checkbox
+                    onPress={selected =>
+                        handleTeleopIssuesQueries(selected, 'NOT_MOVING')
+                    }
+                />
+            }
+        />,
+        <Query
+            title="Lost Connection"
+            item={
+                <Checkbox
+                    onPress={selected =>
+                        handleTeleopIssuesQueries(selected, 'LOST_CONNECTION')
+                    }
+                />
+            }
+        />,
+        <Query
+            title="Disabled"
+            item={
+                <Checkbox
+                    onPress={selected =>
+                        handleTeleopIssuesQueries(selected, 'DISABLED')
+                    }
+                />
+            }
+        />,
     ];
 
     return (

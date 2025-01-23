@@ -18,6 +18,7 @@ import Checkbox from '../components/inputs/Checkbox';
 import Query from '../components/scouting_components/Query';
 import CustomTextInput from '../components/inputs/CustomTextInput';
 import RadioGroup from '../components/inputs/RadioGroup';
+import Auton2 from './Scouting/Auton2';
 // import {fetchEventNameFromServer} from '../authentication/api';
 
 interface ScoutingPageProps {
@@ -171,6 +172,10 @@ const ScoutingPage: React.FC<ScoutingPageProps> = ({
     const AutonNavigate = (props: any) => {
         return <Auton {...props} backConfirm={backConfirm} />;
     };
+
+    const AutonNavigate2 = (props: any) => {
+        return <Auton2 {...props} backConfirm={backConfirm} />;
+    }
 
     const TeleopNavigate = () => {
         return <Teleop />;
@@ -378,6 +383,7 @@ const ScoutingPage: React.FC<ScoutingPageProps> = ({
                         },
                     }}>
                     <Tab.Screen name="Auton">{AutonNavigate}</Tab.Screen>
+                    <Tab.Screen name="Auton Received">{AutonNavigate2}</Tab.Screen>
                     <Tab.Screen name="Teleop Scoring">
                         {TeleopNavigate}
                     </Tab.Screen>

@@ -382,14 +382,15 @@ const ScoutingPage: React.FC<ScoutingPageProps> = ({
                             backgroundColor: 'black',
                         },
                     }}>
-                    <Tab.Screen name="Auton">{AutonNavigate}</Tab.Screen>
-                    <Tab.Screen name="Auton Received">{AutonNavigate2}</Tab.Screen>
-                    <Tab.Screen name="Teleop Scoring">
-                        {TeleopNavigate}
-                    </Tab.Screen>
+                    <Tab.Screen name="Auton Received">{AutonNavigate}</Tab.Screen>
+                    <Tab.Screen name="Auton Scoring">{AutonNavigate2}</Tab.Screen>
                     <Tab.Screen name="Teleop Received">
                         {TeleopReceivedNavigate}
                     </Tab.Screen>
+                    <Tab.Screen name="Teleop Scoring">
+                        {TeleopNavigate}
+                    </Tab.Screen>
+                    
                     <Tab.Screen name="Endgame">{EndgameNavigate}</Tab.Screen>
                 </Tab.Navigator>
             </View>

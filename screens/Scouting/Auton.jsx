@@ -24,19 +24,18 @@ const Auton = ({backConfirm}) => {
                 />
             }
         />,
-    ];
-
-    const auton_queries = [
         <Query
-            title="Coral Intaken"
+            title="Did the robot leave?"
             item={
-                <CounterBox
-                    onChange={value =>
-                        setDict('autonCoralIntaken', value)
-                    }
+                <RadioGroup
+                    buttons={['Yes', 'No']}
+                    onChange={value => setDict('robotLeft', value)}
                 />
             }
         />,
+    ];
+
+    const auton_queries = [
         <Query
             title="Coral from Human Player"
             item={
@@ -48,7 +47,7 @@ const Auton = ({backConfirm}) => {
             }
         />,
         <Query
-            title="Coral From Ground"
+            title="Coral from Ground"
             item={
                 <CounterBox
                     onChange={value =>

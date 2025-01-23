@@ -9,29 +9,29 @@ export const useDictStore = create(set => ({
         matchType: '', // qualification, practice, or elimination
         driveStation: null,
         alliance: '', // red or blue
-        preloaded: null, // true or false
-        robotLeft: null, // true or false
-        autonSpeakerNotesScored: 0,
-        autonAmpNotesScored: 0,
-        autonMissed: 0,
-        autonNotesReceived: 0,
-        droppedNotes: 0,
-        autonIssues: [], // NOT_MOVING, STOPPED, OUT_OF_CONTROL, Default: EMPTY
-        telopSpeakerNotesScored: 0,
-        telopAmpNotesScored: 0,
-        telopSpeakerNotesMissed: 0,
-        telopAmpNotesMissed: 0,
-        telopNotesReceivedFromHumanPlayer: 0,
-        telopNotesReceivedFromGround: 0,
-        ferryNotes: 0,
-        endGame: null, // PARKED, ONSTAGE, SPOTLIGHT, Default: EMPTY
-        trap: 0,
-        fouls: 0,
-        techFouls: 0,
-        yellowCards: 0,
-        redCards: 0,
-        telopIssues: [], // NOT_MOVING, LOST_CONNECTION, FMS_ISSUES, DISABLED, Default: EMPTY
-        didTeamPlayDefense: null, // YES, NO, Default: null
+        // preloaded: null, // true or false
+        // robotLeft: null, // true or false
+        // autonSpeakerNotesScored: 0,
+        // autonAmpNotesScored: 0,
+        // autonMissed: 0,
+        // autonNotesReceived: 0,
+        // droppedNotes: 0,
+        // autonIssues: [], // NOT_MOVING, STOPPED, OUT_OF_CONTROL, Default: EMPTY
+        // telopSpeakerNotesScored: 0,
+        // telopAmpNotesScored: 0,
+        // telopSpeakerNotesMissed: 0,
+        // telopAmpNotesMissed: 0,
+        // telopNotesReceivedFromHumanPlayer: 0,
+        // telopNotesReceivedFromGround: 0,
+        // ferryNotes: 0,
+        // endGame: null, // PARKED, ONSTAGE, SPOTLIGHT, Default: EMPTY
+        // trap: 0,
+        // fouls: 0,
+        // techFouls: 0,
+        // yellowCards: 0,
+        // redCards: 0,
+        // telopIssues: [], // NOT_MOVING, LOST_CONNECTION, FMS_ISSUES, DISABLED, Default: EMPTY
+        // didTeamPlayDefense: null, // YES, NO, Default: null
         timeOfCreation: '',
     },
     setDict: (key, value) =>
@@ -49,29 +49,29 @@ export const useDictStore = create(set => ({
                 driveStation: state.dict.driveStation !== undefined ? state.dict.driveStation : 0,
                 // driveStation: null,
                 alliance: '', // red or blue
-                preloaded: null, // true or false
-                robotLeft: null, // true or false
-                autonSpeakerNotesScored: 0,
-                autonAmpNotesScored: 0,
-                autonMissed: 0,
-                autonNotesReceived: 0,
-                droppedNotes: 0,
+                // preloaded: null, // true or false
+                // robotLeft: null, // true or false
+                // autonSpeakerNotesScored: 0,
+                // autonAmpNotesScored: 0,
+                // autonMissed: 0,
+                // autonNotesReceived: 0,
+                // droppedNotes: 0,
                 autonIssues: [], // NOT_MOVING, STOPPED, OUT_OF_CONTROL, Default: EMPTY
-                telopSpeakerNotesScored: 0,
-                telopAmpNotesScored: 0,
-                telopSpeakerNotesMissed: 0,
-                telopAmpNotesMissed: 0,
-                telopNotesReceivedFromHumanPlayer: 0,
-                telopNotesReceivedFromGround: 0,
-                ferryNotes: 0,
-                endGame: null, // PARKED, ONSTAGE, SPOTLIGHT, Default: EMPTY
-                trap: 0,
-                fouls: 0,
-                techFouls: 0,
-                yellowCards: 0,
-                redCards: 0,
-                telopIssues: [], // NOT_MOVING, LOST_CONNECTION, FMS_ISSUES, DISABLED, Default: EMPTY
-                didTeamPlayDefense: null, // YES, NO, Default: null
+                // telopSpeakerNotesScored: 0,
+                // telopAmpNotesScored: 0,
+                // telopSpeakerNotesMissed: 0,
+                // telopAmpNotesMissed: 0,
+                // telopNotesReceivedFromHumanPlayer: 0,
+                // telopNotesReceivedFromGround: 0,
+                // ferryNotes: 0,
+                // endGame: null, // PARKED, ONSTAGE, SPOTLIGHT, Default: EMPTY
+                // trap: 0,
+                // fouls: 0,
+                // techFouls: 0,
+                // yellowCards: 0,
+                // redCards: 0,
+                teleopIssues: [], // NOT_MOVING, LOST_CONNECTION, FMS_ISSUES, DISABLED, Default: EMPTY
+                // didTeamPlayDefense: null, // YES, NO, Default: null
                 timeOfCreation: '',
             },
         })),

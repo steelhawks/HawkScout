@@ -8,91 +8,86 @@ import Checkbox from '../../components/inputs/Checkbox';
 import {useDictStore} from '../../contexts/dict.jsx';
 import Button from '../../components/inputs/Button';
 
-const Auton = ({backConfirm}) => {
+const Auton2 = ({backConfirm}) => {
     const dict = useDictStore(state => state.dict);
     const setDict = useDictStore(state => state.setDict);
 
-    const prematch_queries = [
+    const auton_queries = [
         <Query
-            title="Preloaded?"
+            title="Did the robot leave?"
             item={
                 <RadioGroup
                     buttons={['Yes', 'No']}
-                    onChange={selectedItem => {
-                        setDict('preloaded', selectedItem);
-                    }}
+                    onChange={value => setDict('robotLeft', value)}
                 />
             }
         />,
-    ];
-
-    const auton_queries = [
         <Query
-            title="Coral Intaken"
+            title="Coral Scored L4"
             item={
                 <CounterBox
                     onChange={value =>
-                        setDict('autonCoralIntaken', value)
+                        setDict('autonCoralL4', value)
                     }
                 />
             }
         />,
         <Query
-            title="Coral from Human Player"
+            title="Coral Scored L3"
             item={
                 <CounterBox
                     onChange={value =>
-                        setDict('autonCoralFromHumanPlayer', value)
+                        setDict('autonCoralL3', value)
                     }
                 />
             }
         />,
         <Query
-            title="Coral From Ground"
+            title="Coral Scored L2"
             item={
                 <CounterBox
                     onChange={value =>
-                        setDict('autonCoralFromGround', value)
+                        setDict('autonCoralL2', value)
                     }
                 />
             }
         />,
         <Query
-            title="Algae from Ground"
+            title="Coral Scored L1"
             item={
                 <CounterBox
                     onChange={value =>
-                        setDict('autonAlgaeFromGround', value)
+                        setDict('autonCoralL1', value)
                     }
                 />
             }
         />,
         <Query
-            title="Algae from Reef"
+            title="Algae Processed"
             item={
                 <CounterBox
                     onChange={value =>
-                        setDict('autonAlgaeFromReef', value)
+                        setDict('autonAlgaeProcessed', value)
                     }
                 />
             }
         />,
         <Query
-            title="Missed Coral"
+            title="Algae Shot"
             item={
                 <CounterBox
                     onChange={value =>
-                        setDict('autonMissedCoral', value)
+                        setDict('autonAlgaeShot', value)
                     }
                 />
             }
         />,
         <Query
-            title="Missed Algae"
+            title="Dropped Coral/Algae"
             item={
                 <CounterBox
                     onChange={value =>
-                        setDict('autonMissedAlgae', value)
+                        setDict('autonAlgaeShot', value)
                     }
                 />
             }
@@ -107,18 +102,51 @@ const Auton = ({backConfirm}) => {
         setDict('autonIssues', updatedIssues);
     };
 
+    const auton_issues_queries = [
+        // NOT_MOVING, STOPPED, OUT_OF_CONTROL, Default: EMPTY
+        <Query
+            title="Not Moving"
+            item={
+                <Checkbox
+                    onPress={selected =>
+                        handleAutonIssuesQueries(selected, 'NOT_MOVING')
+                    }
+                />
+            }
+        />,
+        <Query
+            title="Stopped"
+            item={
+                <Checkbox
+                    onPress={selected =>
+                        handleAutonIssuesQueries(selected, 'STOPPED')
+                    }
+                />
+            }
+        />,
+        <Query
+            title="Out of Control"
+            item={
+                <Checkbox
+                    onPress={selected =>
+                        handleAutonIssuesQueries(selected, 'OUT_OF_CONTROL')
+                    }
+                />
+            }
+        />,
+    ];
+
     return (
         <ScrollView>
-            <Button onPress={backConfirm} label="Cancel" />
-            <Section
-                title={'Pre-Match'}
-                queries={prematch_queries}
-                style={styles.sectionStyle}
-            />
             <Section
                 title={'Auton'}
                 queries={auton_queries}
                 style={[styles.patternSectionStyle]}
+            />
+            <Section
+                title={'Auton Issues'}
+                queries={auton_issues_queries}
+                style={[styles.sectionStyle]}
             />
         </ScrollView>
     );
@@ -137,4 +165,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Auton;
+export default Auton2;

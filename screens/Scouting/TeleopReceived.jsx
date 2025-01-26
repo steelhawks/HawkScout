@@ -27,6 +27,20 @@ const TeleopReceived = () => {
                 />
             }
         />,
+        <Query 
+            title="Coral from Ground"
+            item={
+                <CounterBox
+                    onChange={value =>
+                        setDict('teleopCoralFromGround', value)
+                    }
+                />
+            }
+        />,
+        <Query
+            title="Algae from Ground"
+            item={<CounterBox onChange={value => setDict('teleopAlgaeFromGround', value)} />}
+        />,
         <Query
             title="Algae from Reef"
             item={
@@ -36,10 +50,6 @@ const TeleopReceived = () => {
                     }
                 />
             }
-        />,
-        <Query
-            title="Algae from Ground"
-            item={<CounterBox onChange={value => setDict('teleopAlgaeFromGround', value)} />}
         />,
     ];
 

@@ -9,8 +9,8 @@ export const useDictStore = create(set => ({
         matchType: '', // qualification, practice, or elimination
         driveStation: null,
         alliance: '', // red or blue
-        // preloaded: null, // true or false
-        // robotLeft: null, // true or false
+        preloaded: null, // true or false
+        robotLeft: null, // true or false
         // autonSpeakerNotesScored: 0,
         // autonAmpNotesScored: 0,
         // autonMissed: 0,
@@ -24,14 +24,14 @@ export const useDictStore = create(set => ({
         // telopNotesReceivedFromHumanPlayer: 0,
         // telopNotesReceivedFromGround: 0,
         // ferryNotes: 0,
-        // endGame: null, // PARKED, ONSTAGE, SPOTLIGHT, Default: EMPTY
         // trap: 0,
         // fouls: 0,
         // techFouls: 0,
         // yellowCards: 0,
         // redCards: 0,
         // telopIssues: [], // NOT_MOVING, LOST_CONNECTION, FMS_ISSUES, DISABLED, Default: EMPTY
-        // didTeamPlayDefense: null, // YES, NO, Default: null
+        didTeamPlayDefense: null, // YES, NO,
+        endGame: null, // SHALLOW, DEEP, PARK, NONE
         timeOfCreation: '',
     },
     setDict: (key, value) =>

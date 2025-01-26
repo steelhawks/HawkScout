@@ -65,11 +65,11 @@ const Auton2 = ({backConfirm}) => {
             }
         />,
         <Query
-            title="Algae Shot"
+            title="Net Algae Scored"
             item={
                 <CounterBox
                     onChange={value =>
-                        setDict('autonAlgaeShot', value)
+                        setDict('autonNetAlgaeScored', value)
                     }
                 />
             }

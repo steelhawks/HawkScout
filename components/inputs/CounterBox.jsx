@@ -54,18 +54,20 @@ const CounterBox = props => {
             return;
 
         const newValue = parseInt(inputValue);
-        if (!isNaN(newValue)) {
-            if (newValue > (props.min || MIN_LOCAL) && newValue < (props.max || MAX_LOCAL)) {
-                setValue(newValue);
-            } else {
-                if (newValue < (props.min || MIN_LOCAL)) {
-                    Alert.alert('Value cannot be below the minimum');
-                } else {
-                    Alert.alert('Value cannot exceed the maximum');
-                }
-            }
-        } else {
+
+        if (isNaN(newValue)) {
             Alert.alert('Please enter a number');
+            return;
+        }
+
+        if (newValue >= (props.min || MIN_LOCAL) && newValue <= (props.max || MAX_LOCAL)) {
+            setValue(newValue);
+        } else {
+            if (newValue <= (props.min || MIN_LOCAL)) {
+                Alert.alert('Value cannot be below the minimum');
+            } else {
+                Alert.alert('Value cannot exceed the maximum');
+            }
         }
     };
 

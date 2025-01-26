@@ -11,51 +11,41 @@ const Teleop = () => {
 
     const reef_scoring_queries = [
         <Query
-            title="L4 Reef Scored"
+            title="Coral Scored L4"
             item={
                 <CounterBox
                     onChange={value =>
-                        setDict('teleopL4ReefScored', value)
+                        setDict('teleopCoralL4', value)
                     }
                 />
             }
         />,
         <Query
-            title="L3 Reef Scored"
+            title="Coral Scored L3"
             item={
                 <CounterBox
                     onChange={value =>
-                        setDict('teleopL3ReefScored', value)
+                        setDict('teleopCoralL3', value)
                     }
                 />
             }
         />,
         <Query
-            title="L3 Reef Scored"
+            title="Coral Scored L2"
             item={
                 <CounterBox
                     onChange={value =>
-                        setDict('teleopL3ReefScored', value)
+                        setDict('teleopCoralL2', value)
                     }
                 />
             }
         />,
         <Query
-            title="L2 Reef Scored"
+            title="Coral Scored L1"
             item={
                 <CounterBox
                     onChange={value =>
-                        setDict('teleopL2ReefScored', value)
-                    }
-                />
-            }
-        />,
-        <Query
-            title="L1 Reef Scored"
-            item={
-                <CounterBox
-                    onChange={value =>
-                        setDict('teleopL1ReefScored', value)
+                        setDict('teleopCoralL1', value)
                     }
                 />
             }
@@ -68,16 +58,16 @@ const Teleop = () => {
             item={
                 <CounterBox
                     onChange={value =>
-                        setDict('teleopNetShotsScored', value)
+                        setDict('teleopNetAlgaeScored', value)
                     }
                 />
             }
         />,
         <Query
-            title="Processor Algae Scored"
+            title="Algae Processed"
             item={
                 <CounterBox
-                    onChange={value => setDict('teleopProcessorAlgaeScored', value)}
+                    onChange={value => setDict('teleopAlgaeProcessed', value)}
                 />
             }
         />,

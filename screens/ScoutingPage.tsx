@@ -59,7 +59,7 @@ const ScoutingPage: React.FC<ScoutingPageProps> = ({
     // define the required fields here
     // MAKE SURE THAT THEY ARE NULL IN THE DICT AS IT ONLY CHECKS
     // IF THE VALUE IS NULL!!!!!
-    const requiredQueries = ['preloaded', 'robotLeft', 'didTeamPlayDefense'];
+    const requiredQueries = ['preloaded', 'robotLeft', 'didTeamPlayDefense', 'endGame'];
 
     // validation function to check if all required queries are completed
     const validateQueries = () => {

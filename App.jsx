@@ -23,17 +23,17 @@ import {
     RequestNotifications,
 } from './permissions/RequestPermissions';
 import DeviceInfo from 'react-native-device-info';
-import * as Sentry from '@sentry/react-native';
+// import * as Sentry from '@sentry/react-native';
 import {supabase} from "./supabase";
 import { createStackNavigator } from '@react-navigation/stack';
 
-Sentry.init({
-    dsn: 'https://08757a6e7744a5cd6a808c9c372f7ec8@o4506839099637760.ingest.us.sentry.io/4506839106060288',
+// Sentry.init({
+//     dsn: 'https://08757a6e7744a5cd6a808c9c372f7ec8@o4506839099637760.ingest.us.sentry.io/4506839106060288',
 
-    // We recommend adjusting this value in production, or using tracesSampler
-    // for finer control
-    tracesSampleRate: 1.0,
-});
+//     // We recommend adjusting this value in production, or using tracesSampler
+//     // for finer control
+//     tracesSampleRate: 1.0,
+// });
 
 // Tells Supabase Auth to continuously refresh the session automatically if
 // the app is in the foreground. When this is added, you will continue to receive
@@ -338,4 +338,5 @@ const App = () => {
     );
 };
 
-export default Sentry.wrap(App);
+// export default Sentry.wrap(App);
+export default App;

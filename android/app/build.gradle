@@ -86,6 +86,8 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.9.1"
+
+        multiDexEnabled true
     }
     sourceSets {
         main {
@@ -123,6 +125,9 @@ android {
 }
 
 dependencies {
+
+    implementation 'com.android.support:multidex:2.0.1' //enter the latest multidex version
+
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
 

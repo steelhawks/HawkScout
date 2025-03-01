@@ -79,7 +79,7 @@ const Auton2 = ({backConfirm}) => {
             item={
                 <CounterBox
                     onChange={value =>
-                        setDict('autonAlgaeShot', value)
+                        setDict('autonCoralAlgaeDropped', value)
                     }
                 />
             }

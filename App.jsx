@@ -7,7 +7,6 @@ import CreateAccount from './screens/CreateAccount';
 import ScoutingPage from './screens/ScoutingPage';
 import DataPage from './screens/DataPage';
 import ManageAccount from './screens/ManageAccount';
-// import Tutorial from './screens/Tutorial';
 import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {StyleSheet, StatusBar, AppState} from 'react-native';
@@ -23,22 +22,9 @@ import {
     RequestNotifications,
 } from './permissions/RequestPermissions';
 import DeviceInfo from 'react-native-device-info';
-// import * as Sentry from '@sentry/react-native';
 import {supabase} from "./supabase";
 import { createStackNavigator } from '@react-navigation/stack';
 
-// Sentry.init({
-//     dsn: 'https://08757a6e7744a5cd6a808c9c372f7ec8@o4506839099637760.ingest.us.sentry.io/4506839106060288',
-
-//     // We recommend adjusting this value in production, or using tracesSampler
-//     // for finer control
-//     tracesSampleRate: 1.0,
-// });
-
-// Tells Supabase Auth to continuously refresh the session automatically if
-// the app is in the foreground. When this is added, you will continue to receive
-// `onAuthStateChange` events with the `TOKEN_REFRESHED` or `SIGNED_OUT` event
-// if the user's session is terminated. This should only be registered once.
 AppState.addEventListener('change', (state) => {
     if (state === 'active') {
         supabase.auth.startAutoRefresh()
